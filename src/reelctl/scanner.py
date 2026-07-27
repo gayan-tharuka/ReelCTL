@@ -47,7 +47,10 @@ def scan_directory(root: Path) -> ScanResult:
             try:
                 stat = item.stat()
                 ext = item.suffix.lstrip(".")
-                category = categorize_extension(ext)
+                if item.name.startswith("._") or item.name in (".DS_Store", ".localized"):
+                    category = FileCategory.JUNK
+                else:
+                    category = categorize_extension(ext)
 
                 scanned = ScannedFile(
                     path=item,

@@ -59,6 +59,10 @@ def is_junk_file(scanned_file: ScannedFile) -> bool:
     """
     name_lower = scanned_file.name.lower()
 
+    # macOS AppleDouble metadata files (e.g. ._Movie.mkv) and system files
+    if name_lower.startswith("._") or name_lower in (".ds_store", ".localized", "thumbs.db", "desktop.ini"):
+        return True
+
     # Already categorized as junk by extension
     if scanned_file.category == FileCategory.JUNK:
         return True

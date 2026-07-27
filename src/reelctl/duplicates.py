@@ -43,9 +43,12 @@ def detect_duplicates(identities: list[MediaIdentity]) -> list[DuplicateGroup]:
         if len(members) < 2:
             continue
 
-        # Sort by quality (best first)
+        # Sort by quality score first, then file size as tiebreaker (best first)
         members.sort(
-            key=lambda m: quality_score(m.quality, m.source),
+            key=lambda m: (
+                quality_score(m.quality, m.source),
+                m.source_file.size_bytes,
+            ),
             reverse=True,
         )
 

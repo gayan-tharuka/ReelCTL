@@ -32,6 +32,15 @@ class TestScanDirectory:
         junk = result.junk_files
         assert len(junk) >= 1
 
+    def test_scan_ignores_macos_appledouble_files(self, tmp_path: Path):
+        (tmp_path / "._Nowhere.2023.720p.mkv").write_bytes(b"\x00" * 4096)
+        (tmp_path / "Nowhere.2023.720p.mkv").write_bytes(b"\x00" * 1024 * 1024)
+        result = scan_directory(tmp_path)
+        assert len(result.video_files) == 1
+        assert result.video_files[0].name == "Nowhere.2023.720p.mkv"
+        assert len(result.junk_files) == 1
+        assert result.junk_files[0].name == "._Nowhere.2023.720p.mkv"
+
     def test_scan_records_file_sizes(self, media_dir: Path):
         result = scan_directory(media_dir)
         assert result.total_size_bytes > 0
