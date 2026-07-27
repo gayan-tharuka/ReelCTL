@@ -1,0 +1,21 @@
+# ReelCTL Default Configuration
+
+# API Keys (prefer .env or environment variables)
+tmdb_api = ""
+groq_api = ""
+
+# Language for TMDB queries
+language = "en"
+
+# Automatically delete detected junk files
+delete_junk = true
+
+# Include episode title in TV show filenames
+include_episode_title = true
+
+# Output folder names
+movie_folder = "Movies"
+tv_folder = "TV Shows"
+
+# Default to dry run (preview only, no changes)
+dry_run = true
